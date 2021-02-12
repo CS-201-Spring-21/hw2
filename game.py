@@ -165,16 +165,18 @@ class Game:
                 # Render cells, pause for next iteration.
                 tk.update()
                 time.sleep(0.1 / config.speed)
-            # Advanmce the game by one step.
+            # Advance the game by one step.
             life.step()
 
 
 def main():
+    # Set up initial configuration.
     config = Config()
     config.animate = True
     config.rounds = 1000
     config.start = Config.glider
     config.speed = 5
+    # Initialize a Life instance and run the Game on it.
     life = Life(config.start)
     Game.run(life, config)
 

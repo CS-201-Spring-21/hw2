@@ -14,12 +14,12 @@
 \pagestyle{headandfoot}
 \runningheadrule
 \runningfootrule
-\runningheader{CS 201 Data Structures II}{HW 2: Skiplists and Hash Tables}{Spring 2020}
+\runningheader{CS 201 Data Structures II}{HW 2: Skiplists and Hash Tables}{Spring 2021}
 \runningfooter{}{Page \thepage\ of \numpages}{}
 \firstpageheader{}{}{}
 
-% \qformat{{\large\bf \thequestion. \thequestiontitle}\hfill[\totalpoints\ points]}
-\qformat{{\large\bf \thequestion. \thequestiontitle}\hfill}
+\qformat{{\large\bf \thequestion. \thequestiontitle}\hfill[\totalpoints\ points]}
+% \qformat{{\large\bf \thequestion. \thequestiontitle}\hfill}
 \boxedpoints
 
 \printanswers
@@ -55,12 +55,48 @@
 \lstset{style=mystyle}
 
 \title{Homework 2: Skiplists and Hash Tables}
-\author{CS 201 Data Structures II\\Habib University\\Spring 2020}
-% \date{\numpoints\ points, Due: 18h on Wednesday, 11 September}
-\date{Due: 1830h on Friday, 21 February}  % <=== Replace with your team name.
+\author{CS 201 Data Structures II\\Habib University\\Spring 2021}
+\date{}  % <=== Enter your team name.
 
 \begin{document}
 \maketitle
+\part{Skiplists}
+
+The solutions to the following problems are to be entered inline below. Remove all other parts and sections from this document. Enter your team name for the date in the document's title.
+
+\begin{questions}
+
+\titledquestion{Redundant Comparisons}\footnote{Adapted from Exercise 4.8 in the textbook.}
+  The \texttt{find(x)} method in a \texttt{SkiplistSet} sometimes performs redundant comparisons; these occur when \texttt{x} is compared to the same value more than once. They can occur when, for some node, \texttt{u}, \texttt{u.next[r] = u.next[r-1]}.
+  \begin{parts}
+  \part[5] What causes these redundant comparisons to happen?
+    \begin{solution}
+      % Enter your solution here.
+    \end{solution}
+  \part[5] Modify \texttt{find(x)} so that redundant comparisons are avoided.
+    \begin{solution}
+      % Enter your solution here.
+    \end{solution}
+  \end{parts}
+
+\titledquestion{A Ranked Set}[10]\footnote{Adapted from Exercise 4.9 in the textbook.}
+  Design, a version of a skiplist that implements the \texttt{SSet} interface, but also allows fast access to elements by \textit{rank}. That is, it also supports the function \texttt{get(i)}, which returns the element whose rank is \texttt{i} in $O(\log n)$ expected time. (The rank of an element \texttt{x} in an \texttt{SSet} is the number of elements in the \texttt{SSet} that are less than \texttt{x}.)
+
+  Describe how your version differs from a regular skiplist and provide pseudocode of \texttt{find(x)} and \texttt{get(i)} for this version.
+  \begin{solution}
+    % Enter your solution here.
+  \end{solution}
+
+\titledquestion{Finger Search}[10]\footnote{Adapted from Exercise 4.10 in the textbook.}
+  A \textit{finger} in a skiplist is an array that stores the sequence of nodes on a search path at which the search path goes down. (The variable \texttt{stack} in the \texttt{add(x)} code on page 87 is a finger; the shaded nodes in Figure 4.3 show the contents of the finger.) One can think of a finger as pointing out the path to a node in the lowest list, $L_0$.
+  
+  A \textit{finger search} implements the find(x) operation using a finger, walking up the list using the finger until reaching a node \texttt{u} such that \texttt{u.x < x} and \texttt{u.next = nil} or \texttt{u.next.x > x} and then performing a normal search for \texttt{x} starting from \texttt{u}. It is possible to prove that the expected number of steps required for a finger search is $O(1+\log r)$, where $r$ is the number values in $L_0$ between \texttt{x} and the value pointed to by the finger.
+
+  Design, i.e. provide the necessary pseudo code for, a version of a skiplist that implements \texttt{find(x)} operations using an internal finger. This subclass stores a finger, which is then used so that every \texttt{find(x)} operation is implemented as a finger search. During each \texttt{find(x)} operation the finger is updated so that each \texttt{find(x)} operation uses, as a starting point, a finger that points to the result of the previous \texttt{find(x)} operation.
+  \begin{solution}
+    % Enter your solution here.
+  \end{solution}
+\end{questions}
 
 \part{Hash Tables}
 
@@ -89,7 +125,7 @@ The rules above are presented differently from their original formulation but th
 
 \subsection{Initial Configurations}
 
-The game begins with an initial configuration of live cells. As the rules of the game are deterministic, the initial configuration completely determines all subsequent states of the game. Some initial configurations lead to interesting behavior and have led to the identification of certain classes of patterns.
+The game begins with an initial configuration of live cells. This constitutes the starting state of the game. As the rules of the game are deterministic, the starting state completely determines all subsequent states of the game. Some initial configurations lead to interesting behavior and have led to the identification of certain classes of patterns.
 \begin{description}
 \item[Still Life] These patterns are not affected by further iterations of the game and stay unchanged as the game proceeds.
 \item[Oscillators] These patterns recur after a fixed number of iterations which are called the \textit{period} of the oscillator.
@@ -116,115 +152,49 @@ Some links in the above excerpt that are now dead have been updated.
 
 \subsection{Visualization}
 
-As the Game of Life is a dynamic system, i.e. its stage changes with each iteration, it is best viewed as an animation which this document is unable to present. See the \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Wikipedia page} or any of the other pages linked in this document for helpful animations. Here is a \href{https://www.youtube.com/watch?v=C2vgICfQawE}{YouTube video}.
+As the Game of Life is a dynamic system, i.e. its state changes with each iteration, it is best viewed as an animation which this document is unable to present. See the \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Wikipedia page} or any of the other pages linked in this document for helpful animations. Here is a \href{https://www.youtube.com/watch?v=C2vgICfQawE}{YouTube video}.
 
 \section{Implementation Details}
 
-An implementation of Conway's Game of Life is provided in the classes \texttt{Life} and \texttt{Game} in the accompanying file \texttt{game.py}. The code is in the accompanying file and in the Appendix in this document.
+An implementation of Conway's Game of Life is provided in the accompanying file \texttt{game.py} whose contents are also presented in the Appendix in this document. The file contains two main classes.
 
-\texttt{Life} takes its initial configuration on creation and relies on 2 structures.
-\begin{description}
-\item[Live Cells]  A hash table containing $(x,y)$ coordinates of live cells.
-\item[Neighbor Count] A hash table containing key-value pairs. Each key is an $(x,y)$ coordinate of a cell with live neighbors and the value is the number of its live neighbors.
-\end{description}
-In each iteration, the live cells are used to populate neighbor count which in turn is used to update the live cells.
+\paragraph{\texttt{Life}} Every instance is initialized with a starting configuration which is stored using two different hash tables.\\
+--- \texttt{self.\_alive} stores the two-dimensional $(x,y)$ coordinates of \texttt{live cells}\\\smallskip
+--- \texttt{self.\_nbr\_count} stores \textit{neighbor information} as key-value pairs where each key is an $(x,y)$ coordinate of a cell with \textit{live neighbors} and its value is the number of its live neighbors.\\
+The hash tables store not only the initial configuration but, once the game starts, they store the state of the game at the end of each iteration. During each iteration, the live cells have to be used to populate neighbor information which in turn must be used to update the live cells. This is already coded in the \texttt{step} method of \texttt{Life}. \textit{Do not modify} the implementation of this class.
 
-Do not modify the implementation of this class.
-
-\texttt{Game} runs a \texttt{Life} instance according to provided configurations with an option for animation. In the animation system used, the origin, $(0,0)$, is at the top left of the window. This class is provided for your testing. You may modify it as per your needs.
+\paragraph{\texttt{Game}} It runs a \texttt{Life} instance according to the provided configurations with an option for animation. In the animation system used, the origin, $(0,0)$, is at the top left of the window. This class is provided for your testing. \textit{You may modify} it as per your needs.
 
 \section{Task}
 
-Your task is to implement the structures in \texttt{Life} in 2 different ways.
+Your task is to implement the two hash tables in \texttt{Life} using two different conflict resolution methods. Specifically, you have to implement the following classes which are utilized in the implementation of \texttt{Life}.
 \begin{description}
-\item[Chaining] The hash tables use chaining for conflict resolution.
-\item[Linear Probing] The hash tables use linear probing for conflict resolution.
+\item[\texttt{ChainedSet}] A hash table that implements the \texttt{USet} interface using chaining for conflict resolution.
+\item[\texttt{ChainedDict}] A hash table that implements the \texttt{USet} interface as an associative container and uses chaining for conflict resolution.
+\item[\texttt{LinearSet}] A hash table that implements the \texttt{USet} interface using linear probing for conflict resolution.
+\item[\texttt{LinearDict}] A hash table that implements the \texttt{USet} interface as an associative container and uses linear probing for conflict resolution.
 \end{description}
-The hash table to use is indicated through a parameter passed to \texttt{Life} at the time of initialization.
+The conflict resolution strategy to use is indicated through a parameter passed to \texttt{Life} at the time of initialization.
 
-\part{Skiplists}
-
-The solutions to the following problems are to be entered inline below. Remove all other parts and sections from this document. Enter your team name for the date in the document's title.
-
-\begin{questions}
-
-\titledquestion{Redundant Comparisons}\footnote{Adapted from Exercise 4.8 from the textbook.}
-  The \texttt{find(x)} method in a \texttt{SkiplistSet} sometimes performs redundant comparisons; these occur when \texttt{x} is compared to the same value more than once. They can occur when, for some node, \texttt{u}, \texttt{u.next[r] = u.next[r-1]}.
-  \begin{parts}
-  \part What causes these redundant comparisons to happen?
-    \begin{solution}
-      % Enter your solution here.
-    \end{solution}
-  \part Modify \texttt{find(x)} so that redundant comparisons are avoided.
-    \begin{solution}
-      % Enter your solution here.
-    \end{solution}
-  \end{parts}
-
-\titledquestion{A Ranked Set}\footnote{Adapted from Exercise 4.9 from the textbook.}
-  Design, i.e. provide the necessary pseudo code for, a version of a skiplist that implements the \texttt{SSet} interface, but also allows fast access to elements by \textit{rank}. That is, it also supports the function \texttt{get(i)}, which returns the element whose rank is \texttt{i} in $O(\log n)$ expected time. (The rank of an element \texttt{x} in an \texttt{SSet} is the number of elements in the \texttt{SSet} that are less than \texttt{x}.)
-  \begin{solution}
-    % Enter your solution here.
-  \end{solution}
-
-\titledquestion{Finger Search}\footnote{Adapted from Exercise 4.10 from the textbook.}
-  A \textit{finger} in a skiplist is an array that stores the sequence of nodes on a search path at which the search path goes down. (The variable \texttt{stack} in the \texttt{add(x)} code on page 87 is a finger; the shaded nodes in Figure 4.3 show the contents of the finger.) One can think of a finger as pointing out the path to a node in the lowest list, $L_0$.
-  
-  A \textit{finger search} implements the find(x) operation using a finger, walking up the list using the finger until reaching a node \texttt{u} such that \texttt{u.x < x} and \texttt{u.next = nil} or \texttt{u.next.x > x} and then performing a normal search for \texttt{x} starting from \texttt{u}. It is possible to prove that the expected number of steps required for a finger search is $O(1+\log r)$, where $r$ is the number values in $L_0$ between \texttt{x} and the value pointed to by the finger.
-
-  Design, i.e. provide the necessary pseudo code for, a version of a skiplist that implements \texttt{find(x)} operations using an internal finger. This subclass stores a finger, which is then used so that every \texttt{find(x)} operation is implemented as a finger search. During each \texttt{find(x)} operation the finger is updated so that each \texttt{find(x)} operation uses, as a starting point, a finger that points to the result of the previous \texttt{find(x)} operation.
-  \begin{solution}
-    % Enter your solution here.
-  \end{solution}
-
-\titledquestion{BONUS: Text Search}\footnote{Adapted from Exercise 4.14 from the textbook.}
-  Using an \texttt{SSet} as your underlying structure, design \textit{and implement} an application that reads a (large) text file and allows you to search, interactively, for any substring contained in the text. As the user types their query, a matching part of the text (if any) should appear as a result.
-  \begin{description}
-  \item[Hint 1] Every substring is a prefix of some suffix, so it suffices to store all suffixes of the text file.
-  \item[Hint 2] Any suffix can be represented compactly as a single integer indicating where the suffix begins in the text.
-  \end{description}
-  
-  Test your application on some large texts, such as some of the books available at \href{http://www.gutenberg.org/}{Project Gutenberg}. If done correctly, your application will be very responsive; there should be no noticeable lag between typing keystrokes and seeing the results.
-
-  Submit your solution as textsearch.py. It is your responsibility to design and implement the necessary interface. Your program should remotely fetch the text to operate on, e.g using the \texttt{urllib} module from Homework 1. Any special instructions regarding running and using the program should be indicated clearly in the file.
-  
-\end{questions}
-
-\part{Closing}
+Make sure to go over the provided implementation first in order gain a good understanding of the game logic and the requirements, specifically the interface that the hash tables must support.
   
 \section*{Credits}
 
-The Game of Life homework is adapted from \href{https://www.refsmmat.com/posts/2016-01-25-conway-game-of-life.html}{A flexible implementation of Conway's Game of Life} due to \href{https://www.facebook.com/abdullah.zafar.547389}{Abdullah Zafar} who identified it and adapted the implementation from \href{https://racket-lang.org}{Racket}.
+The Game of Life homework is adapted from \href{https://www.refsmmat.com/posts/2016-01-25-conway-game-of-life.html}{A flexible implementation of Conway's Game of Life}.
+
+\newpage
 
 \appendix
-\section{\texttt{Life}}
-The listing below js based on line numbers from the accompanying file, \texttt{game.py}. Modifying the file will change the listing.
+\part*{Appendix}
+The listings below are based on real time retrieval of line numbers from the accompanying file, \texttt{game.py}. Modifying the file will change the listings.
+
+\section{The \texttt{Life} class}
 \lstinputlisting[language=python, frame=single, linerange={51-123}]{game.py}
 
-\section{\texttt{Game}}
-The listing below js based on line numbers from the accompanying file, \texttt{game.py}. Modifying the file will change the listing.
+\section{The \texttt{Game} class}
 \lstinputlisting[language=python, frame=single, linerange={126-169}]{game.py}
 
-% \newpage
-% \section{\texttt{MyImage}}
-% \lstinputlisting[language=python, frame=single, caption=Image Type, label={lst:img}]{src/myimage.py}
-
-% \newpage
-% \section{\texttt{MyList}}
-% \lstinputlisting[language=python, frame=single, caption=List Type, label={lst:lst}]{src/mylist.py}
-
-% \newpage
-% \section{Pointers in python}
-% \lstinputlisting[language=python, frame=single, caption=BST in python, label={lst:bst}]{src/bst.py}
-
-
-
 \end{document}
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
